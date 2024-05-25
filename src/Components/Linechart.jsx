@@ -12,7 +12,7 @@ const Linechart = () => {
 
   useEffect(() => {
     const chartConfig = {
-     series: [
+      series: [
         {
           name: "Sales",
           data: chartData[selectedRange], // Use selected range data
@@ -67,8 +67,8 @@ const Linechart = () => {
         },
         formatter: function (value, timestamp, index) {
           // Add space between months
-          return value.split('').join('\xa0'); // Replace every character with itself followed by a non-breaking space
-        }
+          return value.split("").join("\xa0"); // Replace every character with itself followed by a non-breaking space
+        },
       },
       yaxis: {
         labels: {
@@ -91,7 +91,10 @@ const Linechart = () => {
       },
     };
 
-    const chart = new ApexCharts(document.querySelector("#bar-chart"), chartConfig);
+    const chart = new ApexCharts(
+      document.querySelector("#bar-chart"),
+      chartConfig
+    );
     chart.render();
 
     return () => {
@@ -102,30 +105,49 @@ const Linechart = () => {
   const handleRangeChange = (e) => {
     setSelectedRange(e.target.value); // Update selected range
   };
-  
 
   return (
     <div className="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
       <div className="relative mx-4 mt-4 flex flex-col gap-4 overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:flex-row md:items-center">
-        <div className="flex items-center  gap-8">
-        <div>
-        <label htmlFor="range-select" className="text-sm text-[#464255] font-bold">
-        Customer Map
-        </label>
-        </div>
-       <div>
-       <select id="range-select" value={selectedRange} onChange={handleRangeChange} className="px-2 py-1 border border-[#B9BBBD] outline-[#B9BBBD] rounded-md">
-          <option value="week">Week</option>
-          <option value="month">Month</option>
-          <option value="year">Year</option>
-        </select>
-       </div>
-       <HiOutlineDotsVertical />
+        <div className="flex items-center gap-8">
+          <div>
+            <label
+              htmlFor="range-select"
+              className="text-sm text-[#464255] font-bold"
+            >
+              Customer Map
+            </label>
+          </div>
+          <div>
+            <select
+              id="range-select"
+              value={selectedRange}
+              onChange={handleRangeChange}
+              className="px-2 py-1 border border-[#B9BBBD] outline-none rounded-md custom-select-arrow"
+            >
+              <option value="week">Week</option>
+              <option value="month">Month</option>
+              <option value="year">Year</option>
+            </select>
+          </div>
+          <HiOutlineDotsVertical className="cursor-pointer" />
         </div>
       </div>
       <div className="pt-6 px-2 pb-0">
         <div id="bar-chart"></div>
       </div>
+
+      {/* Custom CSS for the dropdown arrow */}
+      <style jsx>{`
+        .custom-select-arrow {
+          appearance: none;
+          background-color: white;
+          background-image: url("data:image/svg+xml,%3Csvg width='10' height='7' viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 6.5L0.5 1.5L9.5 1.5L5 6.5Z' fill='%23FF0000'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 0.75rem center;
+          padding-right: 1.5rem;
+        }
+      `}</style>
     </div>
   );
 };
